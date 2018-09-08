@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Make sure the user provides a name for the project
+if [[ "$1" == "" ]]; then
+    echo "Please enter a name for the project!"
+    exit 1
+fi
+
+# Set up project 
+mkdir $1.Solution
+mkdir $1.Solution/$1 
+mkdir $1.Solution/$1/Models
+touch $1.Solution/$1/$1.csproj
+touch $1.Solution/$1/Models/$1.cs
+mkdir $1.Solution/$1.Tests 
+mkdir $1.Solution/$1.Tests/ModelTests
+touch $1.Solution/$1.Tests/$1.Tests.csproj
+touch $1.Solution/$1.Tests/ModelTests/$1Tests.cs
+touch $1.Solution/README.md
+
+# Write to .csproj files
+/bin/cat <<EOM >$1.Solution/$1/$1.csproj
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+</Project>
+EOM
+
+/bin/cat <<EOM >$1.Solution/$1.Tests/$1.Tests.csproj
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../$1/$1.csproj" />
+  </ItemGroup>
+</Project>
+EOM
+
+#Restore dependencies
+cd $1.Solution/$1.Tests
+dotnet restore
