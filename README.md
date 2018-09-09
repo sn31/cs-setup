@@ -14,6 +14,12 @@ This bash script will set up your C# project following the structure below:
            ├───ProjectTests.cs
        ├───Project.Tests.csproj
 ```
+It will also:
+* Initialize your project as a git repository.
+* Create an empty README.
+* Create a .gitignore with a few relavant rules to C# projects. 
+* Write to your .csproj files (including ASP.NET packages).
+* Restore the dependencies for your project from the Tests folder.
 
 ## Setup/Installation Requirements
 
