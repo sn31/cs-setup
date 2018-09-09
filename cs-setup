@@ -1,9 +1,17 @@
 #!/bin/bash
 
+# $1 is the first variable which is also your project's name.
 # Make sure the user provides a name for the project
 if [[ "$1" == "" ]]; then
-    echo "Please enter a name for the project!"
-    exit 1
+  echo "Please enter a name for the project!"
+  exit 1
+fi
+
+# Make sure there is no existing project with the same name
+
+if [[ -d $1.Solution ]]; then
+  echo "Project already exists!"
+  exit 1
 fi
 
 # Set up project 
