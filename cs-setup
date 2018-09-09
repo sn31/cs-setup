@@ -96,3 +96,6 @@ bin/
 obj/
 EOM
 
+#Initialize Git
+cd ..
+git init
