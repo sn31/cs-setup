@@ -16,8 +16,12 @@ fi
 
 # Set up project 
 mkdir $1.Solution
-mkdir $1.Solution/$1 
+mkdir $1.Solution/$1
+touch $1.Solution/.gitignore 
 mkdir $1.Solution/$1/Models
+mkdir $1.Solution/$1/Controllers
+mkdir $1.Solution/$1/Views
+mkdir $1.Solution/$1/Views/Home
 touch $1.Solution/$1/$1.csproj
 touch $1.Solution/$1/Models/$1.cs
 mkdir $1.Solution/$1.Tests 
@@ -56,21 +60,102 @@ EOM
 </Project>
 EOM
 
+/bin/cat <<EOM >$1.Solution/$1/Program.cs
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+
+namespace $1
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
+
+            host.Run();
+        }
+    }
+}
+EOM
+
+/bin/cat <<EOM >$1.Solution/$1/Startup.cs
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace $1
+{
+    public class Startup
+    {
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath)
+            .AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
+        public IConfigurationRoot Configuration {get;}
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+        public void Configure(IApplicationBuilder app)
+        {
+            app.UseDeveloperExceptionPage();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                );
+            });
+            app.Run(async (context)=>
+            {
+                await context.Response.WriteAsync("Hello World!");
+            });
+            
+        }
+    }
+}
+EOM
+
 #Restore dependencies
 cd $1.Solution/$1.Tests
 dotnet restore
 
-#Create .gitignore
+#Write to .gitignore
 /bin/cat <<EOM >$1.Solution/.gitignore
 # Compiled source #
 ###################
+*.com
+*.class
+*.dll
 *.exe
+*.o
+*.so
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
 
 # OS generated files #
 ######################
 .DS_Store
 .DS_Store?
 ._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
 # Csharp generated files #
 .vscode
