@@ -37,7 +37,7 @@ It will also:
 ```
     $ chmod +x cs-setup
 ```
-3. Place the script under /usr/local/bin folder: 
+3. Place the script under /usr/local/bin folder.
 
 4. To run the script:
 ```
