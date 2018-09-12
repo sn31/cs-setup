@@ -8,11 +8,17 @@ This bash script will set up your C# project following the structure below:
    ├───Project
        ├───Models
            ├───Project.cs
+       ├───Views
+       ├───Controllers
        ├───Project.csproj
+       ├───Program.cs
+       ├───Startup.cs
     ├───Project.Tests
        ├───ModelTests
            ├───ProjectTests.cs
        ├───Project.Tests.csproj
+    ├───README.md
+    ├───.gitignore
 ```
 It will also:
 * Initialize your project as a git repository.
@@ -27,7 +33,13 @@ It will also:
 ```
     $ git clone https://github.com/sn31/cs-setup
 ```
-2. To run the script:
+2. To make the script executable:
+```
+    $ chmod +x cs-setup
+```
+3. Place the script under /usr/local/bin folder: 
+
+4. To run the script:
 ```
     $ cs-setup <ProjectName>
 ```
