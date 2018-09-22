@@ -26,6 +26,7 @@ It will also:
 * Create a .gitignore with a few relavant rules to C# projects. 
 * Write to your .csproj files (including ASP.NET packages).
 * Restore the dependencies for your project from the Tests folder.
+* Configure MySql database.
 
 ## Setup/Installation Requirements
 
@@ -33,15 +34,9 @@ It will also:
 ```
     $ git clone https://github.com/sn31/cs-setup
 ```
-2. To make the script executable:
+2. To run the script:
 ```
-    $ chmod +x cs-setup
-```
-3. Place the script under /usr/local/bin folder.
-
-4. To run the script:
-```
-    $ cs-setup <ProjectName>
+    $ sh PATH-To-App <ProjectName>
 ```
 
 ## Known Bugs
